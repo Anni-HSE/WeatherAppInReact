@@ -6,13 +6,15 @@ import DataView from "../DataView/DataView";
 const Forecast = () => {
 
     let [responseObj, setResponseObj] = useState({});
-    let [dataObj, setDataObj] = useState({});
+    let [dataObj, setDataObj] = useState([]);
     let [cityId, setCityId] = useState('');
     let [unit, setUnit] = useState('imperial');
     let [error, setError] = useState(false);
     let [loading, setLoading] = useState(false);
 
     const uriEncodedCity = encodeURIComponent(cityId);
+
+    console.log(dataObj);
 
     function getForecastFromCache(e){
         e.preventDefault();

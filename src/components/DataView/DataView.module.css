@@ -1,0 +1,30 @@
+table {
+    table-layout: fixed;
+    margin: auto;
+    width: 50%;
+    border-collapse: collapse;
+    border: 3px solid white;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #9de2ff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #bdeeff;
+}
+
+tbody tr {
+    background-color: #8fff;
+    height: 50px;
+}
+
+thead tr {
+    height: 50px;
+    background-color: #68cb;
+    font-weight: bold;
+}
+
+table {
+    background-color: #8fff;
+}
