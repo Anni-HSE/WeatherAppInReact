@@ -1,16 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Conditions from '../Conditions/Conditions';
 import classes from './Forecast.module.css';
+import DataView from "../DataView/DataView";
 
 const Forecast = () => {
 
     let [responseObj, setResponseObj] = useState({});
+    let [dataObj, setDataObj] = useState({});
     let [cityId, setCityId] = useState('');
     let [unit, setUnit] = useState('imperial');
     let [error, setError] = useState(false);
     let [loading, setLoading] = useState(false);
 
     const uriEncodedCity = encodeURIComponent(cityId);
+
+    function getForecastFromCache(e){
+        e.preventDefault();
+
+        fetch("http://localhost:8080/weather/getForecastFromCache", {
+            "method": "GET"
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                setDataObj(response);
+            });
+    }
 
     function getForecast(e) {
         e.preventDefault();
@@ -76,12 +91,24 @@ const Forecast = () => {
                     Celcius
                 </label>
                 <button className={classes.Button} type="submit">Get Forecast</button>
+
             </form>
-            <Conditions
-                responseObj={responseObj}
-                error={error} //new
-                loading={loading}
-            />
+            <form onSubmit={getForecastFromCache}>
+                <button className={classes.Button} type="submit">Get Forecast List</button>
+            </form>
+            <div>
+                <Conditions
+                    responseObj={responseObj}
+                    error={error} //new
+                    loading={loading}
+                />
+            </div>
+           <div>
+               <DataView
+                   responseObj={dataObj}
+               />
+           </div>
+
         </div>
     )
 }
