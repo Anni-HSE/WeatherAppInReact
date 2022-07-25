@@ -14,6 +14,7 @@ const DataView = (props) => {
         </tr>;
     }) : [];
 
+
     return(
         <div className={classes.Wrapper}>
             {props.responseObj.length != 0 ?

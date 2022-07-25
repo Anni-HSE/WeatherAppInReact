@@ -6,6 +6,7 @@ import DataView from "../DataView/DataView";
 const Forecast = () => {
 
     let [responseObj, setResponseObj] = useState({});
+    let [dataViewIsActive, setDataViewIsActive] = useState(false);
     let [dataObj, setDataObj] = useState([]);
     let [cityId, setCityId] = useState('');
     let [unit, setUnit] = useState('imperial');
@@ -16,16 +17,48 @@ const Forecast = () => {
 
     console.log(dataObj);
 
-    function getForecastFromCache(e){
+    function getWeathers(e){
         e.preventDefault();
 
-        fetch("http://localhost:8080/weather/getForecastFromCache", {
+        fetch("http://localhost:8080/weather/getWeathers", {
             "method": "GET"
         })
             .then(response => response.json())
             .then(response => {
                 console.log(response);
                 setDataObj(response);
+            });
+
+        setDataViewIsActive(true);
+    }
+
+    function getForecastFromDB(e) {
+        e.preventDefault();
+
+        if (cityId.length === 0) {
+            return setError(true);
+        }
+
+        setError(false);
+        setResponseObj({});
+
+        setLoading(true);
+
+        let uriEncodedCityId = encodeURIComponent(cityId);
+
+        fetch("http://localhost:8080/weather/getWeather="+ cityId, {
+            "method": "GET"
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.cod !== 200) {
+                    throw new Error()
+                }
+                setResponseObj(response);
+                setLoading(false);
+            })
+            .catch(err => {
+                getForecastFromDB(cityId);
             });
     }
 
@@ -60,6 +93,8 @@ const Forecast = () => {
                 setLoading(false);
                 console.log(err.message);
             });
+
+        if (dataViewIsActive) getWeathers();
     }
     return (
         <div>
@@ -95,7 +130,7 @@ const Forecast = () => {
                 <button className={classes.Button} type="submit">Get Forecast</button>
 
             </form>
-            <form onSubmit={getForecastFromCache}>
+            <form onSubmit={getWeathers}>
                 <button className={classes.Button} type="submit">Get Forecast List</button>
             </form>
             <div>
