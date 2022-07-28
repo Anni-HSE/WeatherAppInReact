@@ -15,8 +15,6 @@ const Forecast = () => {
 
     const uriEncodedCity = encodeURIComponent(cityId);
 
-    console.log(dataObj);
-
     function getWeathers(e){
         e.preventDefault();
 
@@ -58,12 +56,15 @@ const Forecast = () => {
                 setLoading(false);
             })
             .catch(err => {
-                getForecastFromDB(cityId);
+                setError(true);
+                setLoading(false);
+                console.log(err.message);
             });
     }
 
     function getForecast(e) {
         e.preventDefault();
+
 
         if (cityId.length === 0) {
             return setError(true);
@@ -75,26 +76,17 @@ const Forecast = () => {
         setLoading(true);
 
         let uriEncodedCityId = encodeURIComponent(cityId);
-
+        console.log(uriEncodedCityId);
 
         fetch("http://localhost:8080/weather/forecast="+ cityId, {
             "method": "GET"
         })
             .then(response => response.json())
             .then(response => {
-                if (response.cod !== 200) {
-                    throw new Error()
-                }
+                console.log(response);
                 setResponseObj(response);
                 setLoading(false);
-            })
-            .catch(err => {
-                setError(true);
-                setLoading(false);
-                console.log(err.message);
             });
-
-        if (dataViewIsActive) getWeathers();
     }
     return (
         <div>

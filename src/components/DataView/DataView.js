@@ -8,9 +8,8 @@ const DataView = (props) => {
             <td>{item.city}</td>
             <td>{item.country}</td>
             <td>{item.temp}</td>
-            <td>{item.temp_max}</td>
-            <td>{item.temp_min}</td>
-            <td>{item.wind_speed}</td>
+            <td>{item.windSpeed}</td>
+            <td>{item.description}</td>
         </tr>;
     }) : [];
 
@@ -24,12 +23,11 @@ const DataView = (props) => {
                             <td>City</td>
                             <td>Country</td>
                             <td>Temp</td>
-                            <td>Temp_max</td>
-                            <td>Temp_min</td>
-                            <td>Wind_speed</td>
+                            <td>WindSpeed</td>
+                            <td>Weather</td>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody contenteditable="true">
                         {res}
                     </tbody>
                 </table>
